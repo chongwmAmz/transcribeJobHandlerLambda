@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-//https://www.youtube.com/watch?v=JeJ46YlpPqw
 import java.util.Map;
 
 import javax.net.ssl.SSLContext;
@@ -68,13 +67,11 @@ public class TranscribeJobHandler implements RequestHandler<Map<String, Object>,
 {
 
 
-	private final DynamoDbClient dynamoDbClient;
-	private final TranscribeClient transcribeClient;
+	private static  DynamoDbClient dynamoDbClient= DynamoDbClient.create();
+	private static TranscribeClient transcribeClient= TranscribeClient.create();
 	LambdaLogger logger ;
 	public TranscribeJobHandler()
 	{
-		transcribeClient = TranscribeClient.create();
-		dynamoDbClient = DynamoDbClient.create();
 		//EventBridgeClient.create();
 
 	}
