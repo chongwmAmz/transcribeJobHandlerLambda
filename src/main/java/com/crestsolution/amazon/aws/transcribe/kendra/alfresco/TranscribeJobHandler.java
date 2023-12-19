@@ -1,4 +1,4 @@
-package org.chongwm.crest.kendra.transcribe;
+package com.crestsolution.amazon.aws.transcribe.kendra.alfresco;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,0 +1,80 @@
+# This AWS SAM template has been generated from your function's configuration. If
+# your function has one or more triggers, note that the AWS resources associated
+# with these triggers aren't fully specified in this template and include
+# placeholder values. Open this template in AWS Application Composer or your
+# favorite IDE and modify it to specify a serverless application with other AWS
+# resources.
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Application Model template describing your function.
+Resources:
+  transcribeLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Description: ''
+      MemorySize: 512
+      Timeout: 15
+      Handler: >-
+        com.crestsolution.amazon.aws.transcribe.kendra.alfresco.TranscribeJobHandler::handleRequest
+      Runtime: java17
+      Architectures:
+        - x86_64
+      EphemeralStorage:
+        Size: 512
+      Environment:
+        Variables:
+          alfrescoSearchQuery: >-
+            { "query": { "language": "afts", "query": "TYPE:'cm:content' AND
+            ASPECT:'crestBedrock:GenAI' AND crestBedrock:generateSummary:'false'
+            AND name:*" },"include":["properties"] }}
+      EventInvokeConfig:
+        MaximumEventAgeInSeconds: 21600
+        MaximumRetryAttempts: 2
+      PackageType: Zip
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - '*'
+              Resource: '*'
+            - Sid: VisualEditor0
+              Effect: Allow
+              Action:
+                - s3:GetObjectVersionTorrent
+                - s3:GetObject
+                - s3:GetObjectTorrent
+                - s3:GetBucketLocation
+                - s3:GetObjectVersionAttributes
+                - logs:CreateLogGroup
+                - s3:GetObjectVersion
+              Resource:
+                - arn:aws:s3:::SSSSSSS
+                - arn:aws:s3:::SSSSSSS/*
+                - arn:aws:logs:us-east-1:XXXXXXXXXXXXXXX:*
+            - Sid: VisualEditor1
+              Effect: Allow
+              Action:
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: >-
+                arn:aws:logs:us-east-1:XXXXXXXXXXXXXXX:log-group:/aws/lambda/transcribeLambda:*
+      SnapStart:
+        ApplyOn: None
+      Events:
+        EventBridgeRule1:
+          Type: EventBridgeRule
+          Properties:
+            Pattern:
+              source:
+                - aws.transcribe
+              detail-type:
+                - Transcribe Job State Change
+              detail:
+                TranscriptionJobName:
+                  - prefix: CrestKendraConn
+                TranscriptionJobStatus:
+                  - COMPLETED
+                  - FAILED
+      RuntimeManagementConfig: {}
+
