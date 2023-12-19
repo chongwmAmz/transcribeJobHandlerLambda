@@ -70,7 +70,9 @@ public class TranscribeJobHandler implements RequestHandler<Map<String, Object>,
 
 	private static  DynamoDbClient dynamoDbClient= DynamoDbClient.create();
 	private static TranscribeClient transcribeClient= TranscribeClient.create();
+	protected static String alfrescoHostUrl = System.getenv("alfrescoHost");
 	LambdaLogger logger ;
+	
 	public TranscribeJobHandler()
 	{
 		//EventBridgeClient.create();
@@ -407,9 +409,9 @@ public class TranscribeJobHandler implements RequestHandler<Map<String, Object>,
 		try {
 
 			String url = jsonPayload.get("lambdaAfrescoUrl").getAsString();
-
-		 
-
+			logger.log("url from dynamo : "+url +" from lamda "+ alfrescoHostUrl); 
+			url = alfrescoHostUrl;
+			
 			String authorization = jsonPayload.get("lambdaAuthorization").getAsString(); 
 
 			SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build(); // SSL context that trusts all certificates
